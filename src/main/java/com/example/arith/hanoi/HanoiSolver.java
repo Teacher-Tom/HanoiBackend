@@ -95,8 +95,8 @@ public class HanoiSolver {
         bestResult.PrintDPBestCase();
 
         /* 打印初始状态 */
-        printCurrentStatus();
-        recordCurrentStatus();
+        printStep();
+        recordStep(0,0);
 
         /* 求解具体步骤 */
         getSteps(NUM_DISK, NUM_TOWER,0, getAvailableBuff()[0], NUM_TOWER -1);
@@ -126,25 +126,17 @@ public class HanoiSolver {
     public void getSteps(int disk, int pegs, int sourceId, int buffId, int destId){
         /* 初始化 buffId, buffId 代表用作中转的柱子的id */
         int bufferId = buffId;
-
-        /*
-           moveDisk表示需要移动多少个盘子
-        */
-
-        int moveDisk = bestResult.DPBestCase[pegs - 3][disk - 1];
+        /*moveDisk表示需要移动多少个盘子*/
+        int moveDisk = bestResult.dpBest[pegs - 3][disk - 1];
         /* 如果盘子小于等于2个或者柱子小于等于3个或者移动的盘子数<1 就没必要再寻找下一次需要移动的盘子数,使用经典的汉诺塔解法即可 */
         if (disk <= 2 || pegs <= 3 || moveDisk < 1) {
             /* 按经典汉诺塔问题来求解 */
             classicSolve(disk, TOTAL_PEG[sourceId], TOTAL_PEG[bufferId], TOTAL_PEG[destId]);
         }
         else {
-            /*
-               从起始柱子移动moveDisk个盘子到中转柱子
-             */
+            /*从起始柱子移动moveDisk个盘子到中转柱子*/
             getSteps(moveDisk, pegs, sourceId, destId, bufferId);
-
-            //System.out.println("Next Recursion K = " + (disk - K) + " Src=" + (sourceId+1) + "to Dst=" + (destId+1));
-            /*
+                        /*
                 完成第一步移动后，需要指定新的中转柱子
                 此时原先的中转柱子已经使用
                 所以要找到下一步移动用的中转柱子
@@ -157,8 +149,7 @@ public class HanoiSolver {
             /* 再将起始柱子上disk - moveDisk个盘子移到目标柱子上 */
             getSteps(disk - moveDisk, pegs - 1, sourceId, newBufferId, destId);
 
-            //System.out.println("Next Recursion K = " + K + " Buf=" + (sourceId+1) + "to Dst=" + (destId+1));
-            /* 最后将中转柱子上的moveDisk个柱子移动到目标柱子 */
+             /* 最后将中转柱子上的moveDisk个柱子移动到目标柱子 */
             getSteps(moveDisk, pegs, bufferId, sourceId, destId);
         }
 
@@ -183,8 +174,8 @@ public class HanoiSolver {
             /* 步骤+1 */
             totalStep += 1;
             /* 打印当前柱子状态 */
-            printCurrentStatus();
-            recordCurrentStatus();
+            printStep();
+            recordStep(source.id,destination.id);
         }
         /* 递归调用 */
         else{
@@ -250,7 +241,7 @@ public class HanoiSolver {
     /**
      * 打印当前步骤的柱子状态
      */
-    public void printCurrentStatus(){
+    public void printStep(){
         //当前步骤数
         System.out.print("当前步骤: "+ totalStep + "\n");
         //所有柱子状态
@@ -260,7 +251,6 @@ public class HanoiSolver {
             else
                 System.out.print("柱子 "+ (i+1) + ": [ ]\n");
         System.out.print("============================\n");
-
 
     }
     /*
@@ -272,7 +262,7 @@ public class HanoiSolver {
      * @create 2023/1/9
      **/
 
-    public void recordCurrentStatus(){
+    public void recordStep(int source, int dest){
         List<Stack<Integer>> pegStackList = new ArrayList<>();
         for (int i = 0;i <NUM_TOWER;i++) {
             Stack<Integer> stack = null;
@@ -281,7 +271,7 @@ public class HanoiSolver {
             }
             pegStackList.add(stack);
         }
-        HanoiStep hanoiStep = new HanoiStep(totalStep, pegStackList);
+        HanoiStep hanoiStep = new HanoiStep(totalStep, pegStackList,source,dest);
         result.addStep(hanoiStep);
     }
 

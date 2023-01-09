@@ -19,19 +19,18 @@ public class HanoiResult {
     int numTower;
     @ApiModelProperty("盘子数量")
     int numDisk;
-    //最少移动
+
     @ApiModelProperty("最少移动次数")
     int leastMove;
-    //总步数
+
     @ApiModelProperty("总步骤数")
     int totalStep;
-    //记录错误数
+
     @ApiModelProperty("总错误数")
     int errorCount;
     @ApiModelProperty("本次计算是否成功的消息")
-    //传递结果消息
     String msg;
-    //存放每一步的状态
+
     @ApiModelProperty("每一步骤的具体状态,每一个元素为HanoiStep类型")
     List<HanoiStep> stepList;
 

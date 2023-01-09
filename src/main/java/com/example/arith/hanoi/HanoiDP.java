@@ -19,12 +19,12 @@ public class HanoiDP {
      * 二维数组记录最少移动次数
      * 行号对应柱子数量, 第一行为3个柱子，列号代表盘子数量，第一列为1个盘子
      */
-    public int[][] DPLeastMove;
+    public int[][] dpMove;
     /**
      * 二维数组记录最佳条件下第一步需要移动多少个盘子
      * 行号对应柱子数量, 第一行为3个柱子，列号代表盘子数量，第一列为1个盘子
      */
-    public int[][] DPBestCase;
+    public int[][] dpBest;
 
     /**
      * 求解过程
@@ -36,18 +36,18 @@ public class HanoiDP {
         NUM_DISK = numDisk;
 
         /* 数组存储了每种条件下的最少移动次数 */
-        DPLeastMove = new int[NUM_TOWER -2][NUM_DISK];
+        dpMove = new int[NUM_TOWER -2][NUM_DISK];
         /* 第一行对应Pegs=3的情况, 最少移动应为 2^(Disk Number) -1 */
         for(int i=0;i<numDisk;i++)
-            DPLeastMove[0][i] = (int)Math.pow(2.,(double)i+1)-1;
+            dpMove[0][i] = (int)Math.pow(2.,(double)i+1)-1;
         /* 当柱子数大于3时，对第一和第二列即1个和2个盘子的情况, 最少移动总是 1 和 3 */
         for(int i = 1; i< NUM_TOWER -2; i++) {
-            DPLeastMove[i][0] = 1;
-            DPLeastMove[i][1] = 3;
+            dpMove[i][0] = 1;
+            dpMove[i][1] = 3;
         }
 
         /* 数组记录了最佳情况的每次移动的盘子数量 */
-        DPBestCase = new int[NUM_TOWER -2][NUM_DISK];
+        dpBest = new int[NUM_TOWER -2][NUM_DISK];
         /* 调用方法计算填充两个数组 */
         leastMoves(NUM_DISK, NUM_TOWER);
     }
@@ -63,10 +63,10 @@ public class HanoiDP {
         if (disks<0 || pegs<3)
             return -1;
         /* 检查是否已经计算出当前条件的最少移动次数，是则直接返回 */
-        if(DPLeastMove[pegs-3][disks-1]!=0){
-            return DPLeastMove[pegs-3][disks-1];
+        if(dpMove[pegs-3][disks-1]!=0){
+            return dpMove[pegs-3][disks-1];
         }
-        /* 初始化为最坏情况下的移动次数,第一步移动disk-1个盘子时移动次数最多 */
+
         double least_moves;
         int moving_disk;
         /*第一步和第三步相当于求解m个圆盘r根柱子的问题，第二步相当于求解n-m个圆盘r-1根柱子的问题*/
@@ -75,21 +75,19 @@ public class HanoiDP {
         /* 遍历所有可能的情况以找到最佳情况 */
         for (int r=disks-2;r>0;--r){
             double moves = 2*leastMoves(r,pegs) + leastMoves(disks-r,pegs-1);
+            if(moves<0){
+                /*数据过大发生了数据溢出,跳过本次*/
+                continue;
+            }
             /* 更新最佳解 */
             if (moves<least_moves){
                 least_moves=moves;
                 moving_disk = r;
             }
-            /*
-                如果当前移动大于最少移动
-                就没必要再进行遍历，因为后面的情况一定更大
-            */
-            else
-                break;
         }
         /* 更新数组并返回结果 */
-        DPBestCase[pegs-3][disks-1] = moving_disk;
-        DPLeastMove[pegs-3][disks-1] = (int)least_moves;
+        dpBest[pegs-3][disks-1] = moving_disk;
+        dpMove[pegs-3][disks-1] = (int)least_moves;
         return (int) least_moves;
     }
 
@@ -103,7 +101,7 @@ public class HanoiDP {
         for(int i = 0; i< NUM_TOWER -2; i++) {
             System.out.print("\n" + (i + 3));
             for(int k = 0; k< NUM_DISK; k++)
-                System.out.print("\t\t"+DPLeastMove[i][k]);
+                System.out.print("\t\t"+ dpMove[i][k]);
         }
     }
 
@@ -117,7 +115,7 @@ public class HanoiDP {
         for(int i = 0; i< NUM_TOWER -2; i++) {
             System.out.print("\n" + (i + 3));
             for(int k = 0; k< NUM_DISK; k++)
-                System.out.print("\t\t"+DPBestCase[i][k]);
+                System.out.print("\t\t"+ dpBest[i][k]);
         }
     }
 
@@ -126,6 +124,6 @@ public class HanoiDP {
      * @return 返回最终最少移动次数
      */
     public int totalLeastMove(){
-        return DPLeastMove[NUM_TOWER -3][NUM_DISK -1];
+        return dpMove[NUM_TOWER -3][NUM_DISK -1];
     }
 }

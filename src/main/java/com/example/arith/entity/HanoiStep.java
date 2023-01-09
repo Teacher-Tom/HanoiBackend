@@ -1,6 +1,7 @@
 package com.example.arith.entity;
 
 import com.example.arith.hanoi.Peg;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,17 +18,20 @@ import java.util.Stack;
 @Data
 @ApiModel("每一步的状态HanoiStep")
 public class HanoiStep {
-    //当前步数
     @ApiModelProperty("当前步数")
     int currentStep;
-    //所有柱子上的盘子状态
+    @ApiModelProperty("移动起点")
+    int source;
+    @ApiModelProperty("移动目标")
+    int destination;
     @ApiModelProperty("每根柱子上的盘子")
     List<Stack<Integer>> pegStackList;
 
-    public HanoiStep(int currentStep, List<Stack<Integer>> stackList) {
+    public HanoiStep(int currentStep, List<Stack<Integer>> stackList, int source, int destination) {
         pegStackList = stackList;
         this.currentStep = currentStep;
-
+        this.source = source;
+        this.destination = destination;
     }
 
 }

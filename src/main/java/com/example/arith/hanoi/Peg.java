@@ -6,7 +6,7 @@ import java.util.Stack;
 /**
  * @Author 12042
  * @create 2023/1/8
- * //存储柱子上的盘子编号和柱子的id
+ * 存储柱子上的盘子编号和柱子的id
  */
 public class Peg {
     /**

@@ -1,7 +1,7 @@
 package com.example.arith.controller;
 
 import com.example.arith.entity.HanoiResult;
-import com.example.arith.hanoi.HanoiTowerInput;
+import com.example.arith.hanoi.HanoiInput;
 import com.example.arith.service.IHanoiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +24,7 @@ public class HanoiController {
     @PostMapping("/solve")
     @ApiOperation("求解汉诺塔问题")
     public HanoiResult solve(@RequestParam @ApiParam(value = "柱子数[6, 10]") Integer numTower, @RequestParam @ApiParam(value = "盘子数[50,90]") Integer numDisk){
-        HanoiTowerInput input = hanoiService.createQuestionInput(numTower, numDisk);
+        HanoiInput input = hanoiService.createQuestionInput(numTower, numDisk);
         HanoiResult result = hanoiService.solve(input);
         return result;
     }

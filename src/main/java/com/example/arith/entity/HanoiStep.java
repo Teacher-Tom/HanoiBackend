@@ -1,6 +1,6 @@
 package com.example.arith.entity;
 
-import com.example.arith.hanoi.PegsStack;
+import com.example.arith.hanoi.Peg;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,16 +24,9 @@ public class HanoiStep {
     @ApiModelProperty("每根柱子上的盘子")
     List<Stack<Integer>> pegStackList;
 
-    public HanoiStep(int currentStep, PegsStack pegStacks[],int numTower) {
-        pegStackList = new ArrayList<>();
+    public HanoiStep(int currentStep, List<Stack<Integer>> stackList) {
+        pegStackList = stackList;
         this.currentStep = currentStep;
-        for (int i = 0;i <numTower;i++) {
-            Stack<Integer> stackValue = null;
-            if(pegStacks[i]!=null){
-                stackValue = pegStacks[i].PegStackValue;
-            }
-            this.pegStackList.add(stackValue);
-        }
 
     }
 

@@ -1,7 +1,7 @@
 package com.example.arith.service.impl;
 
 import com.example.arith.entity.HanoiResult;
-import com.example.arith.hanoi.HanoiTowerInput;
+import com.example.arith.hanoi.HanoiInput;
 import com.example.arith.service.IHanoiService;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class HanoiServiceImpl implements IHanoiService {
     @Override
-    public HanoiTowerInput createQuestionInput(int num_tower, int num_disk) {
+    public HanoiInput createQuestionInput(int num_tower, int num_disk) {
         /* Class used to obtain user input for number of Tower and Disk */
-        HanoiTowerInput input = new HanoiTowerInput(6,10,50,90);
+        HanoiInput input = new HanoiInput(6,10,50,90);
         /* Request input for number of Tower and Disk */
-        if(input.RequestInputWeb(num_tower,num_disk)){
+        if(input.input(num_tower,num_disk)){
             return input;
         }else {
             return null;
@@ -24,14 +24,14 @@ public class HanoiServiceImpl implements IHanoiService {
     }
 
     @Override
-    public HanoiResult solve(HanoiTowerInput input) {
+    public HanoiResult solve(HanoiInput input) {
         if(input == null){
             HanoiResult result = new HanoiResult(-1,-1);
             result.setMsg("输入不合法");
             return result;
         }
         /* Start to find solution */
-        HanoiResult hanoiResult = input.StartSolution();
+        HanoiResult hanoiResult = input.getResult();
 
         return hanoiResult;
     }

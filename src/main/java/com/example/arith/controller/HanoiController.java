@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/hanoi")
+@CrossOrigin
 @Api("汉诺塔接口")
 public class HanoiController {
 

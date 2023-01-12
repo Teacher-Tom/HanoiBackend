@@ -14,7 +14,7 @@ public class HanoiServiceImpl implements IHanoiService {
     @Override
     public HanoiInput createQuestionInput(int num_tower, int num_disk) {
         /* Class used to obtain user input for number of Tower and Disk */
-        HanoiInput input = new HanoiInput(6,10,50,90);
+        HanoiInput input = new HanoiInput(3,10,3,90);
         /* Request input for number of Tower and Disk */
         if(input.input(num_tower,num_disk)){
             return input;

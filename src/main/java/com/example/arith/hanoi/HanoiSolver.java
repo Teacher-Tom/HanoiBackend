@@ -70,6 +70,8 @@ public class HanoiSolver {
         totalStep = 0;
         errorCount = 0;
 
+
+
         result = new HanoiResult(numTower,numDisk);
         /* 第一个柱子, 刚开始应该包含盘子 [n,n-1,.....3,2,1] ，n 是盘子总数 */
         /*编号小的盘子在上*/
@@ -86,29 +88,45 @@ public class HanoiSolver {
         /* 初始化其他柱子状态，设置为空 */
         for(int i = 1; i< NUM_TOWER; i++)
             TOTAL_PEG[i] = new Peg(i,false);
+        /*如果只有一个盘子，跳过后续步骤*/
+        if(NUM_DISK == 1){
+            bestResult = null;
+            printStep();
+            recordStep(0,0);
+            classicSolve(NUM_DISK,TOTAL_PEG[0],TOTAL_PEG[1],TOTAL_PEG[NUM_TOWER-1]);
+            /* 打印结果 */
+            System.out.println("最少移动次数: " + totalStep);
+            System.out.println("总步数: " + totalStep);
+            System.out.print("错误数: " + errorCount);
 
-        /* 求当前条件下的最佳解 */
-        bestResult = new HanoiDP(NUM_TOWER, NUM_DISK);
+            result.setLeastMove(totalStep);
+            result.setTotalStep(totalStep);
+            result.setErrorCount(errorCount);
+        }else{
+            /* 求当前条件下的最佳解 */
+            bestResult = new HanoiDP(NUM_TOWER, NUM_DISK);
 
-        /* 输出动态规划的最佳解 */
-        bestResult.PrintDPLeastMove();
-        bestResult.PrintDPBestCase();
+            /* 输出动态规划的最佳解 */
+            bestResult.PrintDPLeastMove();
+            bestResult.PrintDPBestCase();
 
-        /* 打印初始状态 */
-        printStep();
-        recordStep(0,0);
+            /* 打印初始状态 */
+            printStep();
+            recordStep(0,0);
 
-        /* 求解具体步骤 */
-        getSteps(NUM_DISK, NUM_TOWER,0, getAvailableBuff()[0], NUM_TOWER -1);
+            /* 求解具体步骤 */
+            getSteps(NUM_DISK, NUM_TOWER,0, getAvailableBuff()[0], NUM_TOWER -1);
 
-        /* 打印结果 */
-        System.out.println("最少移动次数: " + bestResult.totalLeastMove());
-        System.out.println("总步数: " + totalStep);
-        System.out.print("错误数: " + errorCount);
+            /* 打印结果 */
+            System.out.println("最少移动次数: " + bestResult.totalLeastMove());
+            System.out.println("总步数: " + totalStep);
+            System.out.print("错误数: " + errorCount);
 
-        result.setLeastMove(bestResult.totalLeastMove());
-        result.setTotalStep(totalStep);
-        result.setErrorCount(errorCount);
+            result.setLeastMove(bestResult.totalLeastMove());
+            result.setTotalStep(totalStep);
+            result.setErrorCount(errorCount);
+        }
+
     }
 
     public HanoiResult getResult() {

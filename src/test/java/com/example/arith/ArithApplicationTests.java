@@ -19,7 +19,7 @@ class ArithApplicationTests {
 
     @Test
     void testHanoi(){
-        HanoiInput input = hanoiService.createQuestionInput(6, 50);
+        HanoiInput input = hanoiService.createQuestionInput(5, 1);
         HanoiResult result = hanoiService.solve(input);
         System.out.println(result);
     }

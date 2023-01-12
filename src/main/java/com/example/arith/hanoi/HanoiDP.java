@@ -41,11 +41,10 @@ public class HanoiDP {
         for(int i=0;i<numDisk;i++)
             dpMove[0][i] = (int)Math.pow(2.,(double)i+1)-1;
         /* 当柱子数大于3时，对第一和第二列即1个和2个盘子的情况, 最少移动总是 1 和 3 */
-        for(int i = 1; i< NUM_TOWER -2; i++) {
-            dpMove[i][0] = 1;
-            dpMove[i][1] = 3;
-        }
-
+            for(int i = 1; i< NUM_TOWER -2; i++) {
+                dpMove[i][0] = 1;
+                dpMove[i][1] = 3;
+            }
         /* 数组记录了最佳情况的每次移动的盘子数量 */
         dpBest = new int[NUM_TOWER -2][NUM_DISK];
         /* 调用方法计算填充两个数组 */
